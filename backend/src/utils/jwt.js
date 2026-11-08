@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const config = require('../config/env');
 
@@ -8,9 +9,13 @@ const signAccessToken = (payload) => {
 };
 
 const signRefreshToken = (payload) => {
-  return jwt.sign(payload, config.jwt.refreshSecret, {
-    expiresIn: config.jwt.refreshExpiresIn,
-  });
+  return jwt.sign(
+    { ...payload, jti: crypto.randomBytes(16).toString('hex') },
+    config.jwt.refreshSecret,
+    {
+      expiresIn: config.jwt.refreshExpiresIn,
+    }
+  );
 };
 
 const verifyAccessToken = (token) => {
@@ -35,4 +40,3 @@ module.exports = {
   verifyAccessToken,
   verifyRefreshToken,
 };
-

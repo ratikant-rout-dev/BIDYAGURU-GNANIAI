@@ -1,9 +1,9 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Globe, Radio } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 export const Header = ({ title, subtitle }) => {
-  const { user, language, setLanguage } = useAuth();
+  const { language, setLanguage } = useAuth();
 
   const languages = [
     { code: 'en-IN', label: 'English', flag: '🇬🇧' },
@@ -12,7 +12,7 @@ export const Header = ({ title, subtitle }) => {
   ];
 
   return (
-    <header className="h-18 px-8 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl flex items-center justify-between sticky top-0 z-30 shadow-xs">
+    <header className="min-h-16 py-3 px-4 sm:px-8 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative lg:sticky lg:top-0 z-20 shadow-xs">
       <div>
         <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
           {title}
@@ -24,7 +24,7 @@ export const Header = ({ title, subtitle }) => {
         )}
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 flex-wrap">
         {/* Multilingual Segmented Control */}
         <div className="flex items-center gap-1 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/80 shadow-inner">
           <div className="pl-2 pr-1 text-slate-400 flex items-center">
@@ -61,3 +61,5 @@ export const Header = ({ title, subtitle }) => {
     </header>
   );
 };
+
+export default Header;
