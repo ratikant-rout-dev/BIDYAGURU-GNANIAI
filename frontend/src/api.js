@@ -36,7 +36,11 @@ async function request(endpoint, options = {}) {
 
   if (contentType.includes('application/json')) {
     data = await res.json();
-  } else if (contentType.includes('audio/')) {
+  } else if (
+    contentType.includes('audio/') ||
+    contentType.includes('application/pdf') ||
+    contentType.includes('application/octet-stream')
+  ) {
     const blob = await res.blob();
     return blob;
   } else {
@@ -193,6 +197,29 @@ export const api = {
         method: 'POST',
         body: data instanceof FormData ? data : JSON.stringify(data),
       }),
+  },
+
+  // ATS Resume Profile Builder
+  resume: {
+    get: () => request('/resume'),
+    save: (data) =>
+      request('/resume', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+    update: (data) =>
+      request('/resume', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    delete: () =>
+      request('/resume', {
+        method: 'DELETE',
+      }),
+    downloadPdf: async () => {
+      const blob = await request('/resume/pdf');
+      return blob;
+    },
   },
 };
 

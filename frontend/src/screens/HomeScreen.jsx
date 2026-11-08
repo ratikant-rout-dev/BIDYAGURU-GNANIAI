@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Zap,
   Award,
+  FileText,
 } from 'lucide-react';
 
 export const HomeScreen = ({ onNavigate }) => {
@@ -348,6 +349,25 @@ export const HomeScreen = ({ onNavigate }) => {
                 <p className="text-[11px] text-violet-700 font-medium">Verify known skills & learning priorities</p>
               </div>
               <ChevronRight className="w-4 h-4 text-violet-400 group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            <button
+              onClick={() => onNavigate('resume')}
+              className="w-full p-4 rounded-2xl bg-indigo-50/70 hover:bg-indigo-100/90 border border-indigo-200/90 flex items-center gap-3.5 text-left transition-all duration-150 cursor-pointer group shadow-xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <FileText className="w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-xs font-bold text-indigo-950">Create ATS Resume</p>
+                  <span className="px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-emerald-100 text-emerald-800">
+                    PDF
+                  </span>
+                </div>
+                <p className="text-[11px] text-indigo-700 font-medium">Build, save & download ATS-friendly PDF</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button

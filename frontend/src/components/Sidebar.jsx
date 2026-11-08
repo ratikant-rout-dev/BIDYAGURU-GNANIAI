@@ -6,6 +6,7 @@ import {
   Compass,
   Briefcase,
   MessageSquare,
+  FileText,
   LogOut,
   Sparkles,
   Volume2,
@@ -31,6 +32,13 @@ export const Sidebar = ({ currentScreen, onNavigate }) => {
       label: 'Job Match & Apply',
       icon: Briefcase,
       badge: 'Jobs',
+      highlight: false,
+    },
+    {
+      id: 'resume',
+      label: 'Create Resume',
+      icon: FileText,
+      badge: 'ATS',
       highlight: false,
     },
     {

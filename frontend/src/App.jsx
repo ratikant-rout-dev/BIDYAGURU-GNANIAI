@@ -9,6 +9,7 @@ import { CareerProfileScreen } from './screens/CareerProfileScreen';
 import { RoadmapScreen } from './screens/RoadmapScreen';
 import { CommunicationScreen } from './screens/CommunicationScreen';
 import { JobMatchScreen } from './screens/JobMatchScreen';
+import { CreateResumeScreen } from './screens/CreateResumeScreen';
 
 const MainLayout = () => {
   const { user, loading } = useAuth();
@@ -58,6 +59,10 @@ const MainLayout = () => {
       title: 'Job Match & Apply',
       subtitle: 'Real-time job opportunities matched with your roadmap & verified skills',
     },
+    resume: {
+      title: 'Create Your Resume',
+      subtitle: 'Craft an ATS-optimized professional resume and download ready-to-apply PDF',
+    },
   };
 
   const currentInfo = screenTitles[currentScreen] || screenTitles.home;
@@ -95,6 +100,9 @@ const MainLayout = () => {
           )}
           {currentScreen === 'jobs' && (
             <JobMatchScreen onNavigate={(screenId) => setCurrentScreen(screenId)} />
+          )}
+          {currentScreen === 'resume' && (
+            <CreateResumeScreen onNavigate={(screenId) => setCurrentScreen(screenId)} />
           )}
         </main>
       </div>
