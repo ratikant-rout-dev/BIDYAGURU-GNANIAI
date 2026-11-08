@@ -21,9 +21,9 @@ const HomeScreen = React.lazy(() =>
 const TalkScreen = React.lazy(() =>
   import('../pages/TalkScreen').then((m) => ({ default: m.TalkScreen }))
 );
-const CareerProfileScreen = React.lazy(() =>
-  import('../pages/CareerProfileScreen').then((m) => ({
-    default: m.CareerProfileScreen,
+const ProfilePage = React.lazy(() =>
+  import('../pages/ProfilePage').then((m) => ({
+    default: m.ProfilePage,
   }))
 );
 const RoadmapScreen = React.lazy(() =>
@@ -95,8 +95,9 @@ export const AppRouter = () => {
       {/* 3. Protected Application Pages (Requires valid session, redirects unauthenticated to /login) */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          {/* Legacy redirect for /home */}
+          {/* Legacy redirect for /home and /career-profile */}
           <Route path="/home" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+          <Route path="/career-profile" element={<Navigate to={ROUTES.PROFILE} replace />} />
 
           <Route
             path={ROUTES.DASHBOARD}
@@ -108,7 +109,7 @@ export const AppRouter = () => {
           />
           <Route
             path={ROUTES.PROFILE}
-            element={<ScreenWrapper Component={CareerProfileScreen} />}
+            element={<ScreenWrapper Component={ProfilePage} />}
           />
           <Route
             path={ROUTES.ROADMAP}

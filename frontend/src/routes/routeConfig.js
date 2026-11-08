@@ -23,8 +23,8 @@ export const ROUTE_TITLES = {
     subtitle: 'Multilingual Voice-to-Voice AI Career Mentor',
   },
   [ROUTES.PROFILE]: {
-    title: 'Career Profile & Skills Matrix',
-    subtitle: 'Manage your target role, verified skills, and skill gap analysis',
+    title: 'My Profile',
+    subtitle: 'Manage your personal details, career goals, skills matrix, and preferences',
   },
   [ROUTES.ROADMAP]: {
     title: 'Personalized Career Roadmap',

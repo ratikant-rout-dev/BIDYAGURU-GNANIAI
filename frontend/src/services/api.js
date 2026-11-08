@@ -193,6 +193,41 @@ export const api = {
       }),
   },
 
+  // Personal Profile & Complete Unified Profile
+  profile: {
+    get: () => request('/profile'),
+    update: (data) =>
+      request('/profile', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    getComplete: () => request('/profile/complete'),
+  },
+
+  // Career Profile & Skills Matrix
+  careerProfile: {
+    get: () => request('/career-profile'),
+    update: (data) =>
+      request('/career-profile', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    addSkill: (skill) =>
+      request('/career-profile/skills', {
+        method: 'POST',
+        body: JSON.stringify(skill),
+      }),
+    updateSkill: (skillId, data) =>
+      request(`/career-profile/skills/${skillId}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    deleteSkill: (skillId) =>
+      request(`/career-profile/skills/${skillId}`, {
+        method: 'DELETE',
+      }),
+  },
+
   // Career
   career: {
     analyze: (input, language) =>

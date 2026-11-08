@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogOut, Volume2, X } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../routes/routeConfig';
@@ -8,6 +8,8 @@ import { NAV_ITEMS } from './navConfig';
 export const SidebarContent = ({ isMobile = false, onClose, onItemClick, currentScreen, onNavigate }) => {
   const { user, logout, language } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isProfileActive = location.pathname === ROUTES.PROFILE;
 
   const getLangBadge = () => {
     switch (language) {
@@ -31,6 +33,12 @@ export const SidebarContent = ({ isMobile = false, onClose, onItemClick, current
     if (onNavigate) onNavigate(itemId);
     if (onItemClick) onItemClick();
     if (onClose) onClose();
+  };
+
+  const handleProfileClick = () => {
+    if (onItemClick) onItemClick();
+    if (onClose) onClose();
+    navigate(ROUTES.PROFILE);
   };
 
   return (
@@ -137,22 +145,34 @@ export const SidebarContent = ({ isMobile = false, onClose, onItemClick, current
         </nav>
       </div>
 
-      {/* Bottom Section: Authenticated User Profile & Logout */}
+      {/* Bottom Section: Clickable Authenticated User Profile & Logout */}
       <div className="p-4 border-t border-slate-100 shrink-0 bg-white">
-        <div className="flex items-center justify-between p-2.5 rounded-2xl bg-slate-50/80 border border-slate-200/70">
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8.5 h-8.5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white flex items-center justify-center font-bold text-xs uppercase shrink-0 shadow-xs">
+        <div
+          className={`flex items-center justify-between p-2.5 rounded-2xl border transition-all ${
+            isProfileActive
+              ? 'bg-indigo-50/80 border-indigo-300 shadow-xs ring-2 ring-indigo-500/20'
+              : 'bg-slate-50/80 border-slate-200/70 hover:border-slate-300 hover:bg-slate-100/60'
+          }`}
+        >
+          <button
+            type="button"
+            onClick={handleProfileClick}
+            title="View & Edit Profile"
+            aria-label="View user profile"
+            className="flex items-center gap-2.5 overflow-hidden flex-1 text-left p-1 rounded-xl cursor-pointer group"
+          >
+            <div className="w-8.5 h-8.5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-600 text-white flex items-center justify-center font-bold text-xs uppercase shrink-0 shadow-xs group-hover:scale-105 transition-transform">
               {user?.name ? user.name[0] : 'S'}
             </div>
             <div className="truncate">
-              <p className="text-xs font-bold text-slate-900 truncate">
+              <p className="text-xs font-bold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
                 {user?.name || 'Student'}
               </p>
               <p className="text-[11px] text-slate-500 font-medium truncate">
                 {user?.email || 'student@bidyaguru.edu'}
               </p>
             </div>
-          </div>
+          </button>
 
           <button
             type="button"

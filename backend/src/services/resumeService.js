@@ -1,11 +1,38 @@
 const PDFDocument = require('pdfkit');
 const ResumeProfile = require('../models/ResumeProfile');
+const profileSyncService = require('./profileSyncService');
 
 /**
  * Get resume profile for the authenticated user
  */
 const getResumeProfile = async (userId) => {
   const profile = await ResumeProfile.findOne({ userId });
+  if (!profile) return null;
+
+  // Seamless Category 1 sync from PersonalProfile single source of truth
+  try {
+    const personal = await profileSyncService.getOrCreatePersonalProfile(userId);
+    if (personal) {
+      if (personal.fullName) profile.personalInfo.fullName = personal.fullName;
+      if (personal.email) profile.personalInfo.email = personal.email;
+      if (personal.phone) profile.personalInfo.phone = personal.phone;
+      if (personal.location) profile.personalInfo.location = personal.location;
+      if (personal.city) profile.personalInfo.city = personal.city;
+      if (personal.state) profile.personalInfo.state = personal.state;
+      if (personal.country) profile.personalInfo.country = personal.country;
+      if (personal.postalCode) profile.personalInfo.postalCode = personal.postalCode;
+
+      if (personal.links) {
+        if (personal.links.linkedIn) profile.links.linkedIn = personal.links.linkedIn;
+        if (personal.links.gitHub) profile.links.gitHub = personal.links.gitHub;
+        if (personal.links.portfolio) profile.links.portfolio = personal.links.portfolio;
+        if (personal.links.website) profile.links.website = personal.links.website;
+      }
+    }
+  } catch (syncErr) {
+    console.warn('[Profile Sync Warning in getResumeProfile]:', syncErr.message);
+  }
+
   return profile;
 };
 
@@ -13,11 +40,48 @@ const getResumeProfile = async (userId) => {
  * Save or create resume profile (upsert)
  */
 const saveResumeProfile = async (userId, data) => {
+  // Sync personal data back to PersonalProfile if supplied
+  let personal = null;
+  try {
+    personal = await profileSyncService.syncResumePersonalData(userId, data);
+  } catch (syncErr) {
+    console.warn('[Profile Sync Warning in saveResumeProfile]:', syncErr.message);
+  }
+
+  if (!personal) {
+    try {
+      personal = await profileSyncService.getOrCreatePersonalProfile(userId);
+    } catch (_) {}
+  }
+
+  // Pre-merge Category 1 Personal Info so that saving resume never wipes out existing PersonalProfile data
+  const mergedData = { ...data };
+  if (personal) {
+    mergedData.personalInfo = {
+      ...(mergedData.personalInfo || {}),
+      fullName: mergedData.personalInfo?.fullName || personal.fullName,
+      email: mergedData.personalInfo?.email || personal.email,
+      phone: mergedData.personalInfo?.phone || personal.phone,
+      location: mergedData.personalInfo?.location || personal.location,
+      city: mergedData.personalInfo?.city || personal.city,
+      state: mergedData.personalInfo?.state || personal.state,
+      country: mergedData.personalInfo?.country || personal.country,
+      postalCode: mergedData.personalInfo?.postalCode || personal.postalCode,
+    };
+    mergedData.links = {
+      ...(mergedData.links || {}),
+      linkedIn: mergedData.links?.linkedIn || personal.links?.linkedIn || '',
+      gitHub: mergedData.links?.gitHub || personal.links?.gitHub || '',
+      portfolio: mergedData.links?.portfolio || personal.links?.portfolio || '',
+      website: mergedData.links?.website || personal.links?.website || '',
+    };
+  }
+
   // Prevent duplicate profiles using atomic findOneAndUpdate with upsert
   const profile = await ResumeProfile.findOneAndUpdate(
     { userId },
     {
-      ...data,
+      ...mergedData,
       userId,
     },
     {
@@ -34,6 +98,12 @@ const saveResumeProfile = async (userId, data) => {
  * Update resume profile (partial or full)
  */
 const updateResumeProfile = async (userId, updateData) => {
+  try {
+    await profileSyncService.syncResumePersonalData(userId, updateData);
+  } catch (syncErr) {
+    console.warn('[Profile Sync Warning in updateResumeProfile]:', syncErr.message);
+  }
+
   let profile = await ResumeProfile.findOne({ userId });
 
   if (!profile) {

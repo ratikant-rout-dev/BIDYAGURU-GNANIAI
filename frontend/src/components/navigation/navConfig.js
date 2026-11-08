@@ -1,7 +1,6 @@
 import {
   Home,
   Mic,
-  Target,
   Compass,
   Briefcase,
   FileText,
@@ -25,14 +24,6 @@ export const NAV_ITEMS = [
     icon: Mic,
     badge: 'Voice AI',
     highlight: true,
-  },
-  {
-    to: ROUTES.PROFILE,
-    id: 'profile',
-    label: 'Career Profile',
-    icon: Target,
-    badge: null,
-    highlight: false,
   },
   {
     to: ROUTES.ROADMAP,
