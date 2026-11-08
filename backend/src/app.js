@@ -13,6 +13,7 @@ const voiceRoutes = require('./routes/voiceRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -76,6 +77,8 @@ app.use('/api/v1/communication', communicationRoutes);
 app.use('/api/v1/voice', voiceRoutes);
 app.use('/api/v1/progress', progressRoutes);
 app.use('/api/v1/jobs', jobRoutes);
+app.use('/api', profileRoutes);
+app.use('/api/v1', profileRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/v1/resume', resumeRoutes);
 

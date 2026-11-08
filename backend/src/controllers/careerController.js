@@ -1,5 +1,6 @@
 const CareerProfile = require('../models/CareerProfile');
 const geminiService = require('../integrations/gemini/geminiService');
+const profileSyncService = require('../services/profileSyncService');
 
 const analyzeCareer = async (req, res, next) => {
   try {
@@ -16,17 +17,19 @@ const analyzeCareer = async (req, res, next) => {
     const preferredLanguage = language || req.user.preferredLanguage || 'en-IN';
     const analysis = await geminiService.analyzeCareerAndSkills(input, preferredLanguage);
 
-    let profile = await CareerProfile.findOne({ userId });
-
-    if (!profile) {
-      profile = new CareerProfile({ userId });
-    }
+    let profile = await profileSyncService.getOrCreateCareerProfile(userId);
 
     if (analysis.targetField) profile.targetField = analysis.targetField;
     if (analysis.careerGoal) profile.careerGoal = analysis.careerGoal;
-    if (analysis.knownSkills?.length) profile.knownSkills = Array.from(new Set([...profile.knownSkills, ...analysis.knownSkills]));
-    if (analysis.developingSkills?.length) profile.developingSkills = Array.from(new Set([...profile.developingSkills, ...analysis.developingSkills]));
-    if (analysis.skillsToLearn?.length) profile.skillsToLearn = Array.from(new Set([...profile.skillsToLearn, ...analysis.skillsToLearn]));
+    if (analysis.knownSkills?.length) {
+      profile.knownSkills = Array.from(new Set([...profile.knownSkills, ...analysis.knownSkills]));
+    }
+    if (analysis.developingSkills?.length) {
+      profile.developingSkills = Array.from(new Set([...profile.developingSkills, ...analysis.developingSkills]));
+    }
+    if (analysis.skillsToLearn?.length) {
+      profile.skillsToLearn = Array.from(new Set([...profile.skillsToLearn, ...analysis.skillsToLearn]));
+    }
     profile.languagePreference = preferredLanguage;
     profile.summary = analysis.aiReply;
 
@@ -45,14 +48,7 @@ const analyzeCareer = async (req, res, next) => {
 const getProfile = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    let profile = await CareerProfile.findOne({ userId });
-
-    if (!profile) {
-      profile = await CareerProfile.create({
-        userId,
-        languagePreference: req.user.preferredLanguage || 'en-IN',
-      });
-    }
+    const profile = await profileSyncService.getOrCreateCareerProfile(userId);
 
     res.json({
       success: true,
@@ -66,21 +62,7 @@ const getProfile = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { targetField, careerGoal, knownSkills, developingSkills, skillsToLearn, languagePreference } = req.body;
-
-    let profile = await CareerProfile.findOne({ userId });
-    if (!profile) {
-      profile = new CareerProfile({ userId });
-    }
-
-    if (targetField !== undefined) profile.targetField = targetField;
-    if (careerGoal !== undefined) profile.careerGoal = careerGoal;
-    if (knownSkills !== undefined) profile.knownSkills = knownSkills;
-    if (developingSkills !== undefined) profile.developingSkills = developingSkills;
-    if (skillsToLearn !== undefined) profile.skillsToLearn = skillsToLearn;
-    if (languagePreference !== undefined) profile.languagePreference = languagePreference;
-
-    await profile.save();
+    const profile = await profileSyncService.updateCareerProfile(userId, req.body);
 
     res.json({
       success: true,

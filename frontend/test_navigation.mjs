@@ -28,12 +28,12 @@ function assert(condition, message) {
 // 1. NAV CONFIGURATION VERIFICATION
 console.log('📌 1. Testing Single Source of Truth Navigation Config (navConfig.js)...');
 assert(Array.isArray(NAV_ITEMS), 'NAV_ITEMS is an array');
-assert(NAV_ITEMS.length === 7, `Expected 7 navigation items, received ${NAV_ITEMS.length}`);
+assert(NAV_ITEMS.length === 6, `Expected 6 navigation items (Profile removed from sidebar list), received ${NAV_ITEMS.length}`);
+assert(!NAV_ITEMS.some((n) => n.id === 'profile'), 'Profile/Career Profile link removed from primary sidebar list');
 
 const expectedRoutes = [
   { id: 'home', to: ROUTES.DASHBOARD, label: 'Home' },
   { id: 'talk', to: ROUTES.TALK, label: 'Talk with AI', highlight: true, badge: 'Voice AI' },
-  { id: 'profile', to: ROUTES.PROFILE, label: 'Career Profile' },
   { id: 'roadmap', to: ROUTES.ROADMAP, label: 'Career Roadmap' },
   { id: 'jobs', to: ROUTES.JOBS, label: 'Job Match & Apply', badge: 'Jobs' },
   { id: 'resume', to: ROUTES.CREATE_RESUME, label: 'Create Resume', badge: 'ATS' },
@@ -77,6 +77,8 @@ assert(contentCode.includes('bg-indigo-600 text-white'), 'Sidebar content has ac
 assert(contentCode.includes('LogOut'), 'Sidebar content includes Logout button');
 assert(contentCode.includes('handleLogout'), 'Sidebar content provides logout handler');
 assert(contentCode.includes('handleItemClick'), 'Sidebar content auto-closes drawer on item click');
+assert(contentCode.includes('handleProfileClick'), 'Sidebar content makes user profile box clickable');
+assert(contentCode.includes('ROUTES.PROFILE'), 'Sidebar content routes profile click to dedicated Profile Page');
 
 // 4. MOBILE HEADER COMPONENT VERIFICATION
 console.log('\n📌 4. Testing Mobile Header Component (MobileHeader.jsx)...');
