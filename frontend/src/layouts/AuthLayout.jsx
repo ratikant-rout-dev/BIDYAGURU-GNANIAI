@@ -20,7 +20,7 @@ export const AuthLayout = () => {
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Top Bar */}
-      <header className="max-w-7xl w-full mx-auto p-6 flex items-center justify-between relative z-10">
+      <header className="max-w-7xl w-full mx-auto p-4 sm:p-6 flex items-center justify-between relative z-10">
         <Link
           to={ROUTES.HOME}
           className="flex items-center gap-2 text-indigo-200 hover:text-white text-xs font-bold transition-colors cursor-pointer group"

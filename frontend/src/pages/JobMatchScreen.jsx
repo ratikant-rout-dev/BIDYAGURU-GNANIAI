@@ -247,18 +247,18 @@ export const JobMatchScreen = ({ onNavigate }) => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-fade-in">
       {/* Top Hero Banner */}
-      <div className="relative rounded-3xl p-8 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-xl border border-indigo-500/20 overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+      <div className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-8 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-xl border border-indigo-500/20 overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div className="space-y-3 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
             <span>AI Real-Time Job Match & Apply Engine</span>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Personalized Career Opportunities
           </h1>
-          <p className="text-sm text-indigo-100/90 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm text-indigo-100/90 leading-relaxed font-normal">
             Upload your resume or search by target role and location. Jobs are ranked by match percentage with missing skills highlighted below.
           </p>
 
@@ -300,7 +300,7 @@ export const JobMatchScreen = ({ onNavigate }) => {
       </div>
 
       {/* Search & Location Filter Toolbar */}
-      <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+      <div className="p-4 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
         {/* Search Bar & Location Input */}
         <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row items-center gap-3">
           <div className="flex-1 relative w-full">

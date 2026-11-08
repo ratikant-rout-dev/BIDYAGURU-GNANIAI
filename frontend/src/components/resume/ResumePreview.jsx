@@ -21,7 +21,8 @@ export const ResumePreview = ({ data }) => {
   const displayLocation = locationParts || personalInfo.location;
 
   return (
-    <div className="bg-white text-slate-900 shadow-xl rounded-2xl border border-slate-200/90 p-8 md:p-12 font-sans max-w-4xl mx-auto min-h-[900px] print:shadow-none print:border-none print:p-0">
+    <div className="w-full overflow-x-auto">
+      <div className="bg-white text-slate-900 shadow-xl rounded-xl sm:rounded-2xl border border-slate-200/90 p-4 sm:p-8 md:p-12 font-sans max-w-4xl mx-auto min-h-[900px] print:shadow-none print:border-none print:p-0">
       {/* 1. Header: Name, Title, Contact */}
       <div className="border-b border-slate-200 pb-5 text-center">
         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 uppercase">
@@ -500,6 +501,7 @@ export const ResumePreview = ({ data }) => {
           </div>
         </section>
       )}
+      </div>
     </div>
   );
 };

@@ -83,19 +83,19 @@ export const RoadmapScreen = ({ onNavigate }) => {
   const percentage = total > 0 ? Math.round((completedCount / total) * 100) : 0;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6 sm:space-y-8">
       {/* Header bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               Personalized Career Roadmap
             </h1>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
               v{roadmap?.version || 1}
             </span>
           </div>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Goal: <span className="font-semibold text-slate-800">{roadmap?.targetGoal || 'Software Engineer'}</span>
           </p>
         </div>
@@ -103,7 +103,7 @@ export const RoadmapScreen = ({ onNavigate }) => {
         <button
           onClick={handleGenerate}
           disabled={generating}
-          className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-200 flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
         >
           <RefreshCw className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
           <span>{generating ? 'Regenerating...' : 'Regenerate with Gemini AI'}</span>
@@ -111,7 +111,7 @@ export const RoadmapScreen = ({ onNavigate }) => {
       </div>
 
       {/* Progress Card */}
-      <div className="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
+      <div className="p-4 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
         <div className="flex items-center justify-between text-xs font-bold text-slate-700">
           <span>Overall Roadmap Completion</span>
           <span className="text-indigo-600 font-extrabold text-sm">{percentage}% Completed</span>
@@ -138,7 +138,7 @@ export const RoadmapScreen = ({ onNavigate }) => {
           return (
             <div
               key={item._id || idx}
-              className={`p-6 rounded-3xl border transition-all duration-200 ${
+              className={`p-4 sm:p-6 rounded-2xl sm:rounded-3xl border transition-all duration-200 ${
                 isCompleted
                   ? 'bg-emerald-50/30 border-emerald-200/70 shadow-xs'
                   : isInProgress

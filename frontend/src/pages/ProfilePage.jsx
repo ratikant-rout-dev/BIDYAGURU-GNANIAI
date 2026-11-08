@@ -388,9 +388,9 @@ export const ProfilePage = () => {
       )}
 
       {/* 0. Header & Synchronization Hub */}
-      <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-indigo-500/20 relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div className="flex items-center gap-4 relative z-10">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-500 text-white flex items-center justify-center font-extrabold text-2xl sm:text-3xl shadow-lg shadow-indigo-500/30 border border-white/20 shrink-0">
+      <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white p-4 sm:p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl border border-indigo-500/20 relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="flex items-center gap-3 sm:gap-4 relative z-10">
+          <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-500 text-white flex items-center justify-center font-extrabold text-xl sm:text-3xl shadow-lg shadow-indigo-500/30 border border-white/20 shrink-0">
             {personal.fullName ? personal.fullName[0].toUpperCase() : 'S'}
           </div>
           <div>

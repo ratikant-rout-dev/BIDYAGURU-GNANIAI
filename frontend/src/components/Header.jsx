@@ -12,22 +12,22 @@ export const Header = ({ title, subtitle }) => {
   ];
 
   return (
-    <header className="min-h-16 py-3 px-4 sm:px-8 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative lg:sticky lg:top-0 z-20 shadow-xs">
+    <header className="min-h-16 py-3 px-3.5 sm:px-6 lg:px-8 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative lg:sticky lg:top-0 z-20 shadow-xs">
       <div>
-        <h2 className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
           {title}
         </h2>
         {subtitle && (
-          <p className="text-xs text-slate-500 font-medium tracking-normal mt-0.5">
+          <p className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-normal mt-0.5">
             {subtitle}
           </p>
         )}
       </div>
 
-      <div className="flex items-center gap-4 flex-wrap">
+      <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
         {/* Multilingual Segmented Control */}
-        <div className="flex items-center gap-1 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/80 shadow-inner">
-          <div className="pl-2 pr-1 text-slate-400 flex items-center">
+        <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/80 shadow-inner max-w-full overflow-x-auto">
+          <div className="pl-1.5 sm:pl-2 pr-1 text-slate-400 flex items-center">
             <Globe className="w-3.5 h-3.5" />
           </div>
           {languages.map((l) => {
@@ -36,7 +36,7 @@ export const Header = ({ title, subtitle }) => {
               <button
                 key={l.code}
                 onClick={() => setLanguage(l.code)}
-                className={`px-3 py-1 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-2 sm:px-3 py-1 text-[11px] sm:text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1 shrink-0 ${
                   isActive
                     ? 'bg-white text-indigo-700 shadow-xs border border-slate-200/90'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'

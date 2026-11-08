@@ -39,8 +39,8 @@ export const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-8 md:p-10 text-slate-900 animate-fade-in">
-      <div className="text-center mb-6">
+    <div className="max-w-md w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/90 p-5 sm:p-8 md:p-10 text-slate-900 animate-fade-in">
+      <div className="text-center mb-5 sm:mb-6">
         <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
           Reset Your Password
         </h2>
