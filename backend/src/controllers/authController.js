@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const User = require('../models/User');
 const CareerProfile = require('../models/CareerProfile');
+const RefreshToken = require('../models/RefreshToken');
 const { hashPassword, comparePassword } = require('../utils/password');
 const {
   signAccessToken,
@@ -13,6 +14,10 @@ const cookieOptions = {
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+const hashToken = (token) => {
+  return crypto.createHash('sha256').update(token).digest('hex');
 };
 
 const register = async (req, res, next) => {
@@ -36,7 +41,7 @@ const register = async (req, res, next) => {
       passwordHash,
       preferredLanguage: preferredLanguage || 'en-IN',
       verificationToken,
-      emailVerified: true, // Auto-verified for seamless hackathon / internship testing
+      emailVerified: true, // Auto-verified for seamless testing
     });
 
     // Create default career profile
@@ -45,8 +50,19 @@ const register = async (req, res, next) => {
       languagePreference: user.preferredLanguage,
     });
 
+    const family = crypto.randomBytes(16).toString('hex');
     const accessToken = signAccessToken({ userId: user._id, email: user.email });
-    const refreshToken = signRefreshToken({ userId: user._id });
+    const refreshToken = signRefreshToken({ userId: user._id, family });
+
+    // Persist hashed refresh token for rotation & revocation tracking
+    await RefreshToken.create({
+      userId: user._id,
+      tokenHash: hashToken(refreshToken),
+      family,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      ipAddress: req.ip || '',
+      userAgent: req.headers['user-agent'] || '',
+    });
 
     user.refreshToken = refreshToken;
     await user.save();
@@ -91,8 +107,19 @@ const login = async (req, res, next) => {
       });
     }
 
+    const family = crypto.randomBytes(16).toString('hex');
     const accessToken = signAccessToken({ userId: user._id, email: user.email });
-    const refreshToken = signRefreshToken({ userId: user._id });
+    const refreshToken = signRefreshToken({ userId: user._id, family });
+
+    // Persist hashed refresh token session
+    await RefreshToken.create({
+      userId: user._id,
+      tokenHash: hashToken(refreshToken),
+      family,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      ipAddress: req.ip || '',
+      userAgent: req.headers['user-agent'] || '',
+    });
 
     user.refreshToken = refreshToken;
     await user.save();
@@ -117,6 +144,9 @@ const login = async (req, res, next) => {
   }
 };
 
+/**
+ * Rotate Refresh Token with Automatic Reuse Detection
+ */
 const refreshToken = async (req, res, next) => {
   try {
     const token = req.cookies.refreshToken || req.body.refreshToken;
@@ -136,15 +166,74 @@ const refreshToken = async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.userId);
-    if (!user || user.refreshToken !== token) {
+    if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Token revoked or user not found',
+        message: 'User no longer exists',
       });
     }
 
+    const tokenH = hashToken(token);
+    const storedToken = await RefreshToken.findOne({ tokenHash: tokenH });
+
+    // REUSE DETECTION: If a previously revoked token is reused, invalidate entire session family
+    if (storedToken && storedToken.isRevoked) {
+      console.warn(`[Security Alert] Refresh token reuse detected for user ${user._id}. Revoking family ${storedToken.family}.`);
+      await RefreshToken.updateMany(
+        { family: storedToken.family, isRevoked: false },
+        { isRevoked: true, revokedAt: new Date() }
+      );
+      user.refreshToken = undefined;
+      await user.save();
+
+      res.clearCookie('accessToken');
+      res.clearCookie('refreshToken');
+      return res.status(401).json({
+        success: false,
+        message: 'Suspicious session activity detected. Token chain has been revoked. Please log in again.',
+      });
+    }
+
+    // Check expiration if recorded in document
+    if (storedToken && storedToken.expiresAt < new Date()) {
+      return res.status(401).json({
+        success: false,
+        message: 'Refresh token has expired. Please log in again.',
+      });
+    }
+
+    // If not in RefreshToken collection (e.g. legacy session), check direct user field
+    if (!storedToken && user.refreshToken !== token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token revoked or invalid',
+      });
+    }
+
+    const family = storedToken?.family || decoded.family || crypto.randomBytes(16).toString('hex');
+
+    // Issue rotated tokens
     const newAccessToken = signAccessToken({ userId: user._id, email: user.email });
-    const newRefreshToken = signRefreshToken({ userId: user._id });
+    const newRefreshToken = signRefreshToken({ userId: user._id, family });
+    const newHash = hashToken(newRefreshToken);
+
+    // Mark old token as revoked and track replacement
+    if (storedToken) {
+      storedToken.isRevoked = true;
+      storedToken.revokedAt = new Date();
+      storedToken.replacedByTokenHash = newHash;
+      await storedToken.save();
+    }
+
+    // Create new active token session
+    await RefreshToken.create({
+      userId: user._id,
+      tokenHash: newHash,
+      family,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      ipAddress: req.ip || '',
+      userAgent: req.headers['user-agent'] || '',
+    });
 
     user.refreshToken = newRefreshToken;
     await user.save();
@@ -192,7 +281,6 @@ const forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      // Do not disclose user existence for security
       return res.json({
         success: true,
         message: 'If the email exists, a password reset link has been issued.',
@@ -207,7 +295,7 @@ const forgotPassword = async (req, res, next) => {
     res.json({
       success: true,
       message: 'Password reset link generated.',
-      resetToken, // Returned for effortless local demo/testing
+      resetToken,
     });
   } catch (error) {
     next(error);
@@ -235,6 +323,12 @@ const resetPassword = async (req, res, next) => {
     user.resetPasswordExpires = undefined;
     await user.save();
 
+    // Invalidate all active refresh sessions upon password reset
+    await RefreshToken.updateMany(
+      { userId: user._id, isRevoked: false },
+      { isRevoked: true, revokedAt: new Date() }
+    );
+
     res.json({
       success: true,
       message: 'Password reset successfully! You can now log in.',
@@ -244,17 +338,57 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+/**
+ * Logout single session
+ */
 const logout = async (req, res, next) => {
   try {
+    const token = req.cookies.refreshToken || req.body?.refreshToken;
+    if (token) {
+      const tokenH = hashToken(token);
+      await RefreshToken.findOneAndUpdate(
+        { tokenHash: tokenH },
+        { isRevoked: true, revokedAt: new Date() }
+      );
+    }
+
     if (req.user) {
       req.user.refreshToken = undefined;
       await req.user.save();
     }
+
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
+
     res.json({
       success: true,
       message: 'Logged out successfully.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Logout all active sessions for current user
+ */
+const logoutAll = async (req, res, next) => {
+  try {
+    if (req.user) {
+      await RefreshToken.updateMany(
+        { userId: req.user._id, isRevoked: false },
+        { isRevoked: true, revokedAt: new Date() }
+      );
+      req.user.refreshToken = undefined;
+      await req.user.save();
+    }
+
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    res.json({
+      success: true,
+      message: 'All active sessions revoked successfully.',
     });
   } catch (error) {
     next(error);
@@ -316,7 +450,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   logout,
+  logoutAll,
   getMe,
   updateMe,
 };
-

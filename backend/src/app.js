@@ -65,9 +65,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount API v1 routes as per TRD
+// Mount authentication routes
+app.use('/api/auth', authRoutes);
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1', userRoutes); // Provides /api/v1/me
+app.use('/api', userRoutes);     // Provides /api/me
+app.use('/api/v1', userRoutes);  // Provides /api/v1/me
 app.use('/api/v1/career', careerRoutes);
 app.use('/api/v1/roadmaps', roadmapRoutes);
 app.use('/api/v1/communication', communicationRoutes);
