@@ -65,6 +65,15 @@ npm run dev
 # Frontend starts on http://localhost:5173
 ```
 
+For production, set `VITE_API_URL` in the frontend hosting provider to
+`https://bidyaguru-gnaniai.onrender.com` and rebuild/redeploy the frontend.
+For local development, leave it unset to use the Vite proxy to
+`http://localhost:5000`.
+
+On the backend hosting provider, set `CLIENT_URL` to the exact deployed
+frontend origin `https://bidyaguru-gnaniai.vercel.app` (without a trailing
+slash) so CORS allows the production frontend.
+
 ### 4. Running the Automated Test Suite
 To verify all production API endpoints, database connections, and AI/voice services:
 ```bash
@@ -122,4 +131,3 @@ BIDYA GURU/
 ├── trd.md                   # Technical Requirements Document
 └── env.md                   # Environment documentation
 ```
-

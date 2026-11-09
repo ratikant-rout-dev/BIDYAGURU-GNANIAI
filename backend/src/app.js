@@ -30,6 +30,7 @@ app.use(
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'https://bidyaguru-gnaniai.vercel.app',
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
@@ -94,4 +95,3 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 module.exports = app;
-

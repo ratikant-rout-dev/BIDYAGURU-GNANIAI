@@ -3,7 +3,11 @@ require('dotenv').config();
 const config = {
   port: process.env.PORT || 5000,
   nodeEnv: process.env.NODE_ENV || 'development',
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+  clientUrl: process.env.CLIENT_URL || (
+    process.env.NODE_ENV === 'production'
+      ? 'https://bidyaguru-gnaniai.vercel.app'
+      : 'http://localhost:5173'
+  ),
   mongoUri: process.env.MONGODB_URI,
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET || 'bidya_guru_default_access_secret',
@@ -24,4 +28,3 @@ const config = {
 };
 
 module.exports = config;
-
