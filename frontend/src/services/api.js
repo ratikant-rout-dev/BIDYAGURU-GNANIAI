@@ -1,4 +1,8 @@
-const BASE_URL = '/api/v1';
+const API_ORIGIN = (
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://bidyaguru-gnaniai.onrender.com' : '')
+).replace(/\/+$/, '');
+const BASE_URL = `${API_ORIGIN}/api/v1`;
 
 let token = localStorage.getItem('bidya_token') || '';
 
@@ -22,7 +26,7 @@ let refreshPromise = null;
  */
 const executeRefreshToken = async () => {
   try {
-    const res = await fetch('/api/auth/refresh', {
+    const res = await fetch(`${API_ORIGIN}/api/auth/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
