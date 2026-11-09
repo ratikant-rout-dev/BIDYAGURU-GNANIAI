@@ -264,23 +264,23 @@ export const TalkScreen = ({ onNavigate }) => {
   return (
     <div className="h-[calc(100vh-4.5rem)] flex flex-col bg-slate-50">
       {/* Top Experience Subheader */}
-      <div className="px-8 py-3.5 bg-white border-b border-slate-200/80 flex items-center justify-between shrink-0">
+      <div className="px-4 sm:px-6 md:px-8 py-3 bg-white border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
             <Mic className="w-4 h-4" />
           </div>
           <div>
             <h2 className="text-sm font-bold text-slate-900">
               Voice-to-Voice AI Career Mentor
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-[11px] sm:text-xs text-slate-500">
               Dual-Engine Speech Recognition (Real-Time Web Speech + Gnani Vachana STT)
             </p>
           </div>
         </div>
 
         {/* AI State Pill */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Waveform Visualizer */}
           <Waveform
             isListening={aiState === 'listening'}
@@ -289,27 +289,27 @@ export const TalkScreen = ({ onNavigate }) => {
             volume={micVolume}
           />
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold">
             {aiState === 'listening' && (
-              <div className="flex items-center gap-2 text-rose-600 bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-full">
+              <div className="flex items-center gap-2 text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full text-[11px]">
                 <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-                <span>Hearing your voice...</span>
+                <span>Hearing you...</span>
               </div>
             )}
             {aiState === 'processing' && (
-              <div className="flex items-center gap-2 text-indigo-600 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">
-                <div className="w-3.5 h-3.5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                <span>thinking</span>
+              <div className="flex items-center gap-2 text-indigo-600 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded-full text-[11px]">
+                <div className="w-3 h-3 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                <span>Thinking...</span>
               </div>
             )}
             {aiState === 'speaking' && (
-              <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+              <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full text-[11px]">
                 <Volume2 className="w-3.5 h-3.5 animate-bounce" />
-                <span>Speaking via Gnani Voice...</span>
+                <span>Speaking...</span>
               </div>
             )}
             {aiState === 'idle' && (
-              <div className="flex items-center gap-1.5 text-slate-600">
+              <div className="flex items-center gap-1.5 text-slate-600 text-[11px]">
                 <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                 <span>Microphone Ready</span>
               </div>
@@ -319,17 +319,17 @@ export const TalkScreen = ({ onNavigate }) => {
       </div>
 
       {/* Main Conversation Canvas */}
-      <div className="flex-1 overflow-y-auto p-8 space-y-6" ref={chatScrollRef}>
-        <div className="max-w-3xl mx-auto space-y-6">
+      <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 md:p-8 space-y-4 sm:space-y-6" ref={chatScrollRef}>
+        <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex items-start gap-3.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'
+              className={`flex items-start gap-2.5 sm:gap-3.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'
                 }`}
             >
               {/* Avatar */}
               <div
-                className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 shadow-xs ${msg.role === 'user'
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 shadow-xs ${msg.role === 'user'
                     ? 'bg-slate-900 text-white'
                     : 'bg-gradient-to-tr from-indigo-600 to-violet-600 text-white shadow-indigo-100'
                   }`}
@@ -339,7 +339,7 @@ export const TalkScreen = ({ onNavigate }) => {
 
               {/* Message Bubble */}
               <div
-                className={`max-w-xl rounded-2xl p-4.5 text-sm leading-relaxed shadow-xs ${msg.role === 'user'
+                className={`max-w-[85%] sm:max-w-xl rounded-2xl p-3.5 sm:p-4.5 text-xs sm:text-sm leading-relaxed shadow-xs ${msg.role === 'user'
                     ? 'bg-slate-900 text-white rounded-tr-none'
                     : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-none'
                   }`}
@@ -500,9 +500,9 @@ export const TalkScreen = ({ onNavigate }) => {
       </div>
 
       {/* Suggested Starter Chips */}
-      <div className="px-8 py-2 bg-white/70 border-t border-slate-100 shrink-0">
-        <div className="max-w-3xl mx-auto flex items-center gap-2 overflow-x-auto py-1">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
+      <div className="px-3.5 sm:px-6 md:px-8 py-2 bg-white/70 border-t border-slate-100 shrink-0">
+        <div className="max-w-3xl mx-auto flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
+          <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
             <Sparkles className="w-3 h-3 text-indigo-500" />
             Quick Prompts:
           </span>
@@ -511,7 +511,7 @@ export const TalkScreen = ({ onNavigate }) => {
               key={idx}
               onClick={() => handleSendMessage(prompt)}
               disabled={aiState === 'processing' || aiState === 'listening'}
-              className="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-xs text-slate-600 border border-slate-200/60 whitespace-nowrap transition-colors shrink-0 cursor-pointer disabled:opacity-50"
+              className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-[11px] sm:text-xs text-slate-600 border border-slate-200/60 whitespace-nowrap transition-colors shrink-0 cursor-pointer disabled:opacity-50"
             >
               {prompt}
             </button>
@@ -520,12 +520,12 @@ export const TalkScreen = ({ onNavigate }) => {
       </div>
 
       {/* Voice Interaction & Input Dock */}
-      <div className="p-6 bg-white border-t border-slate-200 shrink-0">
-        <div className="max-w-3xl mx-auto flex items-center gap-4">
+      <div className="p-3 sm:p-4 md:p-6 bg-white border-t border-slate-200 shrink-0">
+        <div className="max-w-3xl mx-auto flex items-center gap-2.5 sm:gap-4">
           {/* Main Large Glowing Microphone Button */}
           <button
             onClick={toggleRecording}
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all transform hover:scale-105 active:scale-95 shrink-0 shadow-md cursor-pointer ${aiState === 'listening'
+            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all transform hover:scale-105 active:scale-95 shrink-0 shadow-md cursor-pointer ${aiState === 'listening'
                 ? 'bg-rose-500 text-white animate-voice-pulse shadow-rose-200 ring-4 ring-rose-300'
                 : aiState === 'speaking'
                   ? 'bg-emerald-500 text-white shadow-emerald-200'
@@ -540,11 +540,11 @@ export const TalkScreen = ({ onNavigate }) => {
             }
           >
             {aiState === 'listening' ? (
-              <MicOff className="w-6 h-6 animate-pulse" />
+              <MicOff className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
             ) : aiState === 'speaking' ? (
-              <VolumeX className="w-6 h-6" />
+              <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" />
             ) : (
-              <Mic className="w-6 h-6" />
+              <Mic className="w-5 h-5 sm:w-6 sm:h-6" />
             )}
           </button>
 
@@ -557,29 +557,29 @@ export const TalkScreen = ({ onNavigate }) => {
               onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
               placeholder={
                 aiState === 'listening'
-                  ? 'Listening... Speak naturally, then click mic to send'
-                  : 'Speak through microphone or type your question here...'
+                  ? 'Listening... Speak now, then click mic to send'
+                  : 'Speak through microphone or type your question...'
               }
               disabled={aiState === 'listening'}
-              className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 text-sm transition-all"
+              className="w-full pl-3.5 sm:pl-4 pr-10 sm:pr-12 py-2.5 sm:py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 text-xs sm:text-sm transition-all"
             />
 
             <button
               onClick={() => handleSendMessage()}
               disabled={!inputMessage.trim() || aiState === 'processing'}
-              className="absolute right-2 top-2 p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-40 disabled:hover:bg-indigo-600 transition-colors cursor-pointer"
+              className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-40 disabled:hover:bg-indigo-600 transition-colors cursor-pointer"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto mt-3 flex items-center justify-between text-[11px] text-slate-400">
+        <div className="max-w-3xl mx-auto mt-2 sm:mt-3 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400">
           <span className="flex items-center gap-1.5">
-            <Radio className="w-3.5 h-3.5 text-emerald-500" />
-            Microphone active & calibrated for 16kHz speech
+            <Radio className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500" />
+            16kHz speech calibrated
           </span>
-          <span>Click mic to start / stop speaking</span>
+          <span>Click mic to speak</span>
         </div>
       </div>
     </div>

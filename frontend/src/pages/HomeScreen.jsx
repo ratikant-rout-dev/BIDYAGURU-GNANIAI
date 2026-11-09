@@ -50,9 +50,9 @@ export const HomeScreen = ({ onNavigate }) => {
     roadmap?.roadmapItems?.[0];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 animate-fade-in">
       {/* Hero Welcome Banner - Hackathon Grade */}
-      <div className="relative rounded-3xl p-8 md:p-10 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-2xl border border-indigo-500/20 overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+      <div className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-2xl border border-indigo-500/20 overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
         {/* Ambient Gradient Orbs */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/25 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -62,14 +62,14 @@ export const HomeScreen = ({ onNavigate }) => {
             <Sparkles className="w-3.5 h-3.5 text-indigo-300 animate-spin" style={{ animationDuration: '6s' }} />
             <span>AI Voice Career & Spoken Communication Mentor</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
             Welcome, <span className="bg-gradient-to-r from-indigo-200 via-white to-violet-200 bg-clip-text text-transparent">{user?.name || 'Student'}</span> 👋
           </h1>
-          <p className="text-sm md:text-base text-indigo-100/90 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm md:text-base text-indigo-100/90 leading-relaxed font-normal">
             Speak naturally in your preferred language to get personal roadmap guidance, identify skill gaps, and practice real-time interviews with spoken feedback.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-medium text-indigo-300">
+          <div className="pt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-medium text-indigo-300">
             <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full border border-white/10">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
               Gnani STT & TTS Voice Engine
@@ -85,26 +85,26 @@ export const HomeScreen = ({ onNavigate }) => {
         <div className="relative z-10 shrink-0 w-full lg:w-auto">
           <button
             onClick={() => onNavigate('talk')}
-            className="group w-full lg:w-auto px-8 py-4.5 rounded-2xl bg-gradient-to-r from-indigo-500 via-violet-600 to-indigo-600 hover:from-indigo-400 hover:to-violet-500 text-white font-extrabold text-base shadow-xl shadow-indigo-600/40 flex items-center justify-center gap-4 transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer border border-white/20"
+            className="group w-full lg:w-auto px-5 sm:px-8 py-3.5 sm:py-4.5 rounded-2xl bg-gradient-to-r from-indigo-500 via-violet-600 to-indigo-600 hover:from-indigo-400 hover:to-violet-500 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-indigo-600/40 flex items-center justify-center gap-3 sm:gap-4 transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer border border-white/20"
           >
-            <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md group-hover:scale-110 group-hover:bg-white/30 transition-all shadow-inner">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md group-hover:scale-110 group-hover:bg-white/30 transition-all shadow-inner">
               <Mic className="w-5 h-5 text-white animate-pulse" />
             </div>
             <div className="text-left">
-              <span className="block text-[11px] uppercase tracking-wider text-indigo-200 font-bold">
+              <span className="block text-[10px] sm:text-[11px] uppercase tracking-wider text-indigo-200 font-bold">
                 Live AI Conversation
               </span>
-              <span className="text-lg font-bold">Talk with Bidya Guru</span>
+              <span className="text-base sm:text-lg font-bold">Talk with Bidya Guru</span>
             </div>
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1.5 transition-transform" />
+            <ArrowRight className="w-5 h-5 ml-1 sm:ml-2 group-hover:translate-x-1.5 transition-transform" />
           </button>
         </div>
       </div>
 
       {/* Main Metrics 4-Grid with Elevated Glassmorphism */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {/* Card 1: Target Career Goal */}
-        <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-indigo-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+        <div className="p-5 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-indigo-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -131,7 +131,7 @@ export const HomeScreen = ({ onNavigate }) => {
         </div>
 
         {/* Card 2: Identified Skills */}
-        <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+        <div className="p-5 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -166,7 +166,7 @@ export const HomeScreen = ({ onNavigate }) => {
         </div>
 
         {/* Card 3: Roadmap Progress */}
-        <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-violet-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+        <div className="p-5 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-violet-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -202,7 +202,7 @@ export const HomeScreen = ({ onNavigate }) => {
         </div>
 
         {/* Card 4: Communication Practice */}
-        <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-amber-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+        <div className="p-5 sm:p-6 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-amber-300 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -238,7 +238,7 @@ export const HomeScreen = ({ onNavigate }) => {
       {/* Two Column Layout: Current Focus & Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Current Active Roadmap Focus */}
-        <div className="lg:col-span-2 p-7 bg-white rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+        <div className="lg:col-span-2 p-5 sm:p-7 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-extrabold text-slate-900">Current Recommended Milestone</h2>
@@ -250,7 +250,7 @@ export const HomeScreen = ({ onNavigate }) => {
           </div>
 
           {currentSkill ? (
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/20 border border-slate-200/90 space-y-4">
+            <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/20 border border-slate-200/90 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-extrabold text-indigo-700 uppercase tracking-wider bg-indigo-100/60 px-2.5 py-0.5 rounded-md">
                   Step #{currentSkill.order || 1}
@@ -260,8 +260,8 @@ export const HomeScreen = ({ onNavigate }) => {
                   {currentSkill.duration || '1-2 weeks'}
                 </span>
               </div>
-              <h3 className="text-2xl font-extrabold text-slate-900">{currentSkill.skill}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{currentSkill.description}</p>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">{currentSkill.skill}</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{currentSkill.description}</p>
 
               {currentSkill.keyTopics?.length > 0 && (
                 <div className="pt-2 flex flex-wrap gap-2">
@@ -289,7 +289,7 @@ export const HomeScreen = ({ onNavigate }) => {
               </div>
             </div>
           ) : (
-            <div className="p-10 text-center rounded-2xl bg-slate-50 border border-dashed border-slate-300">
+            <div className="p-6 sm:p-10 text-center rounded-2xl bg-slate-50 border border-dashed border-slate-300">
               <Compass className="w-10 h-10 text-slate-400 mx-auto mb-3" />
               <p className="text-base font-bold text-slate-800">No active roadmap generated yet</p>
               <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
@@ -306,7 +306,7 @@ export const HomeScreen = ({ onNavigate }) => {
         </div>
 
         {/* Right (1 col): Fast Interactive Action Cards */}
-        <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+        <div className="p-5 sm:p-7 bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
           <h2 className="text-lg font-extrabold text-slate-900">Fast Action Hub</h2>
           <div className="space-y-3">
             <button

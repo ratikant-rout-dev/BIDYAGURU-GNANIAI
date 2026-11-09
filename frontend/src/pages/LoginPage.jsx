@@ -38,8 +38,8 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-8 md:p-10 text-slate-900 animate-fade-in">
-      <div className="text-center mb-8">
+    <div className="max-w-md w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200/90 p-5 sm:p-8 md:p-10 text-slate-900 animate-fade-in">
+      <div className="text-center mb-6 sm:mb-8">
         <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl mx-auto shadow-md shadow-indigo-600/30 mb-3">
           🎓
         </div>
